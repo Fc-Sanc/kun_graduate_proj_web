@@ -12,9 +12,23 @@
 
         <q-space/>
 
-        <UserInfoBar class = "q-mr-sm"/>
+        <div class = "row">
+          <q-input dark dense standout
+                   v-model = "searchText" placeholder = "请输入搜索内容"
+                   style = "width: 400px"
+                   class = "col">
+            <template v-slot:append>
+              <q-icon v-if = "searchText !== ''" name = "clear" class = "cursor-pointer" @click = "searchText = ''"/>
+            </template>
+          </q-input>
+          <q-btn dense flat
+                 icon = "search"
+                 class = "q-mx-sm"/>
+        </div>
 
-        <!--        <q-btn flat @click = "rightDrawerOpen = !rightDrawerOpen" icon = "menu"/>-->
+        <q-space/>
+
+        <UserInfoBar class = "q-mr-sm"/>
 
       </q-toolbar>
     </q-header>
@@ -26,7 +40,6 @@
       :mini = "miniState"
       @mouseover = "miniState = false"
       @mouseout = "miniState = true"
-      content-class = "bg-grey-1"
     >
       <q-list>
         <EssentialLink
@@ -51,11 +64,11 @@
       <router-view/>
     </q-page-container>
 
-    <q-footer>
-      <q-toolbar>
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-footer>
+    <!--    <q-footer>-->
+    <!--      <q-toolbar>-->
+    <!--        <div>Quasar v{{ $q.version }}</div>-->
+    <!--      </q-toolbar>-->
+    <!--    </q-footer>-->
 
   </q-layout>
 </template>
@@ -74,7 +87,8 @@ export default {
       miniState: true,
       leftDrawerOpen: false,
       rightDrawerOpen: false,
-      essentialLinks: user_left_link_data
+      essentialLinks: user_left_link_data,
+      searchText: '',
     }
   },
   methods: {

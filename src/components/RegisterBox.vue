@@ -25,7 +25,7 @@
     </q-item>
 
     <q-item class = "row">
-      <q-btn label = "register" class = "text-capitalize" @click = "register"/>
+      <q-btn label = "注册" class = "text-capitalize" @click = "register"/>
     </q-item>
 
     <q-dialog v-model = "alert">

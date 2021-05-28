@@ -13,7 +13,7 @@
     </q-item>
 
     <q-item class = "row">
-      <q-btn label = "login" class = "text-capitalize" @click = "login"/>
+      <q-btn label = "登录" class = "text-capitalize" @click = "login"/>
     </q-item>
 
     <q-dialog v-model = "alert">

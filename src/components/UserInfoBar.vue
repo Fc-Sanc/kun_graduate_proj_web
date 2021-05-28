@@ -2,7 +2,7 @@
   <div>
     <q-btn flat v-if = "hasSignedIn">
       <q-item>
-        <q-chip outline color="secondary">
+        <q-chip outline color = "secondary">
           <q-avatar size = "30px">
             <q-img :src = "model.portraitUrl"/>
           </q-avatar>
@@ -11,40 +11,60 @@
       </q-item>
 
       <q-menu fit>
-        <q-list>
-          <q-item clickable v-close-popup>
-            <q-item-section>
-              个人信息
-            </q-item-section>
-          </q-item>
-          <q-separator/>
-          <q-item clickable v-close-popup @click = "logout">
-            <q-item-section>
-              注销
-            </q-item-section>
-          </q-item>
-        </q-list>
+        <div class = "row no-wrap q-pa-md">
+          <div class = "column">
+            <div class = "text-h6 q-mb-md">Settings</div>
+            <q-toggle v-model = "darkMode" label = "dark mode" @input = "toggleDarkMode"/>
+          </div>
+
+          <q-separator vertical class = "q-mx-lg"/>
+
+          <div class = "column items-center">
+            <q-avatar size = "72px">
+              <q-img :src = "model.portraitUrl"/>
+            </q-avatar>
+
+            <div class = "text-subtitle1 q-mt-md q-mb-xs">{{ model.username }}</div>
+
+            <q-btn
+              color = "primary"
+              label = "Logout"
+              push
+              @click = "logout"
+              size = "sm"
+              v-close-popup
+            />
+          </div>
+        </div>
       </q-menu>
     </q-btn>
-    <q-btn-group rounded v-else>
-      <q-btn
-        ref = "btn_register"
-        dense
-        push
-        color = "white"
-        class = "text-black q-pl-sm q-pr-sm"
-        label = "Register"
-        @click = "goToRegister"/>
+    <div v-else>
+      <q-btn-group rounded>
+        <q-btn
+          ref = "btn_register"
+          dense
+          color = "white"
+          class = "text-black q-pl-sm q-pr-sm"
+          label = "注册"
+          @click = "goToRegister"/>
 
-      <q-btn
-        ref = "btn_login"
-        dense
-        push
-        class = "q-pr-sm q-pl-sm"
-        color = "secondary"
-        label = "Login"
-        @click = "goToLogin"/>
-    </q-btn-group>
+        <q-btn
+          ref = "btn_login"
+          dense
+          class = "q-pr-sm q-pl-sm"
+          color = "secondary"
+          label = "登录"
+          @click = "goToLogin"/>
+      </q-btn-group>
+      <q-btn round flat icon = "settings">
+        <q-menu fit>
+          <div class = "column q-pa-md">
+            <div class = "text-h6 q-mb-md">Settings</div>
+            <q-toggle v-model = "darkMode" label = "dark mode" @input = "toggleDarkMode"/>
+          </div>
+        </q-menu>
+      </q-btn>
+    </div>
   </div>
 </template>
 
@@ -57,9 +77,10 @@ export default {
   data() {
     return {
       hasSignedIn: false,
+      darkMode: false,
       model: {
-        username: 'shuang',
-        portraitUrl: 'http://localhost:7734/test/get_uploaded_image?imagePath=png/button_128px_1277554_easyicon.net.png'
+        username: '',
+        portraitUrl: ''
       }
     }
   },
@@ -78,7 +99,15 @@ export default {
       this.$router.push('/')
       location.reload()
     },
+    toggleDarkMode(isOpen) {
+      Cookies.set('dark_mode', isOpen)
+      this.$q.dark.set(isOpen)
+    },
     init() {
+      if (Cookies.get('dark_mode') != null) {
+        this.$q.dark.set(Cookies.get('dark_mode'))
+        this.darkMode = Cookies.get('dark_mode')
+      }
       if (Cookies.get('token') != null) {
         this.hasSignedIn = true
         this.model.username = Cookies.get('username')
