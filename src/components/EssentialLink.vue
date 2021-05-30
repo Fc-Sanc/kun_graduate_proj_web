@@ -3,17 +3,9 @@
     <q-separator v-if = "split"/>
 
   </div>
-  <q-item
-    v-else
-    clickable
-    tag = "a"
-    target = "_self"
-    :href = "link"
-  >
-    <q-item-section
-      v-if = "icon"
-      avatar
-    >
+  <q-item v-else clickable
+          tag = "a" target = "_self" :href = "link">
+    <q-item-section v-if = "icon" avatar>
       <q-icon :name = "icon"/>
     </q-item-section>
 

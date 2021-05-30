@@ -11,7 +11,7 @@ function fetch_s(input, init) {
       }
     }
   }
-  return fetch(input, init)
+  return fetch(input, init).then(promise => promise.json())
 }
 
 export {

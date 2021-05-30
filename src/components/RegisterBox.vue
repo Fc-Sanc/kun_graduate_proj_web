@@ -17,7 +17,7 @@
       <q-item-section>
         <q-item>
           <q-uploader label = "请上传头像" max-files = "1" multiple
-                      auto-upload url = "http://localhost:7734/test/upload" field-name = "file"
+                      auto-upload url = "http://localhost:7734/open/upload" field-name = "file"
                       @uploaded = "uploaded"
           />
         </q-item>
@@ -34,7 +34,7 @@
       </q-card>
     </q-dialog>
 
-    <q-ajax-bar color="pink" ref="ajax_bar" skip-hijack position = "bottom" size="10px"/>
+    <q-ajax-bar color = "pink" ref = "ajax_bar" skip-hijack position = "bottom" size = "10px"/>
 
   </q-list>
 
@@ -74,13 +74,32 @@ export default {
         headers: {
           'Content-Type': 'application/json; charset=UTF-8'
         }
-      }).then(promise => promise.json())
-        .then(result => {
-          if (result.code === 0 && result.data !== null) {
-
+      }).then(result => {
+        let login_api = apiInternal.api.login.user
+        fetch_s(login_api.url, {
+          method: login_api.method,
+          body: JSON.stringify(this.body),
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
           }
-          this.$refs.ajax_bar.stop()
+        }).then(result => {
+          if (result.code !== -1 && result.data !== null) {
+            let self_detail_api = apiInternal.api.self_detail
+            Cookies.set('token', result.data['token'])
+            fetch_s(self_detail_api.url, {
+              method: self_detail_api.method
+            }).then(result => {
+              console.log(result)
+              Cookies.set('user_id', result.data['id'])
+              Cookies.set('username', result.data['username'])
+              Cookies.set('portrait_url', result.data['portraitUrl'])
+              this.$refs.ajax_bar.stop()
+              this.$router.push('/')
+              this.$router.go(0)
+            })
+          }
         })
+      })
     }
   }
 }

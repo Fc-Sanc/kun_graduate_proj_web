@@ -1,9 +1,9 @@
 <template>
   <div>
-    <q-btn flat v-if = "hasSignedIn">
+    <q-btn flat no-caps v-if = "hasSignedIn" @click = "getBalance">
       <q-item>
-        <q-chip outline color = "secondary">
-          <q-avatar size = "30px">
+        <q-chip color = "secondary">
+          <q-avatar size = "25px">
             <q-img :src = "model.portraitUrl"/>
           </q-avatar>
           {{ model.username }}
@@ -13,6 +13,9 @@
       <q-menu fit>
         <div class = "row no-wrap q-pa-md">
           <div class = "column">
+            <div class = "text-h6 q-mb-md">Info</div>
+            <div class = "text-body1">余额: {{ model.balance }}</div>
+            <q-separator class = "q-my-sm"/>
             <div class = "text-h6 q-mb-md">Settings</div>
             <q-toggle v-model = "darkMode" label = "dark mode" @input = "toggleDarkMode"/>
           </div>
@@ -28,7 +31,7 @@
 
             <q-btn
               color = "primary"
-              label = "Logout"
+              label = "注销"
               push
               @click = "logout"
               size = "sm"
@@ -69,8 +72,9 @@
 </template>
 
 <script>
-import {Cookies} from "quasar";
 import {get_image_url} from "assets/js/api/api_internal";
+import {apiInternal} from "src/router";
+import {fetch_s} from "assets/js/utils/fetch_extension";
 
 export default {
   name: "UserInfoBar",
@@ -80,7 +84,8 @@ export default {
       darkMode: false,
       model: {
         username: '',
-        portraitUrl: ''
+        portraitUrl: '',
+        balance: 0
       }
     }
   },
@@ -92,27 +97,35 @@ export default {
       this.$router.push({path: '/login'})
     },
     logout() {
-      Cookies.remove('token');
-      Cookies.remove('userId')
-      Cookies.remove('username')
-      Cookies.remove('portraitUrl')
+      this.$q.cookies.remove('token');
+      this.$q.cookies.remove('user_id')
+      this.$q.cookies.remove('username')
+      this.$q.cookies.remove('portrait_url')
       this.$router.push('/')
-      location.reload()
+      this.$router.go(0)
     },
     toggleDarkMode(isOpen) {
-      Cookies.set('dark_mode', isOpen)
+      this.$q.cookies.set('dark_mode', isOpen)
       this.$q.dark.set(isOpen)
     },
     init() {
-      if (Cookies.get('dark_mode') != null) {
-        this.$q.dark.set(Cookies.get('dark_mode'))
-        this.darkMode = Cookies.get('dark_mode')
+      if (this.$q.cookies.get('dark_mode') != null) {
+        this.$q.dark.set(this.$q.cookies.get('dark_mode'))
+        this.darkMode = this.$q.cookies.get('dark_mode')
       }
-      if (Cookies.get('token') != null) {
+      if (this.$q.cookies.get('token') != null) {
         this.hasSignedIn = true
-        this.model.username = Cookies.get('username')
-        this.model.portraitUrl = get_image_url(Cookies.get('portraitUrl'))
+        this.model.username = this.$q.cookies.get('username')
+        this.model.portraitUrl = get_image_url(this.$q.cookies.get('portrait_url'))
       }
+    },
+    getBalance() {
+      let api = apiInternal.api.self_detail
+      fetch_s(api.url, {
+        method: api.method
+      }).then(result => {
+        this.balance = result.data.balance
+      })
     }
   },
   mounted() {

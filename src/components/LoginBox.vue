@@ -52,23 +52,21 @@ export default {
         headers: {
           'Content-Type': 'application/json;charset=UTF-8'
         }
-      }).then(promise => promise.json())
-        .then(result => {
-          if (result.code !== -1 && result.data !== null) {
-            Cookies.set('token', result.data['token'])
-            fetch_s(this.self_detail.url, {
-              method: this.self_detail.method
-            }).then(promise => promise.json())
-              .then(result => {
-                console.log(result)
-                Cookies.set('userId', result.data['id'])
-                Cookies.set('username', result.data['username'])
-                Cookies.set('portraitUrl', result.data['portraitUrl'])
-                this.$router.push('/')
-                location.reload()
-              })
-          }
-        })
+      }).then(result => {
+        if (result.code !== -1 && result.data !== null) {
+          Cookies.set('token', result.data['token'])
+          fetch_s(this.self_detail.url, {
+            method: this.self_detail.method
+          }).then(result => {
+            console.log(result)
+            Cookies.set('user_id', result.data['id'])
+            Cookies.set('username', result.data['username'])
+            Cookies.set('portrait_url', result.data['portraitUrl'])
+            this.$router.push('/')
+            this.$router.go(0)
+          })
+        }
+      })
     }
   },
   mounted() {

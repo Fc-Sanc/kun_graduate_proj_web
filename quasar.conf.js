@@ -39,6 +39,15 @@ module.exports = function (/* ctx */) {
       'roboto-font', // optional, you are not bound to it
       'material-icons', // optional, you are not bound to it
       'material-icons-outlined',
+      'material-icons-round',
+      'material-icons-sharp',
+      'mdi-v5',
+      'ionicons-v4',
+      'eva-icons',
+      'fontawesome-v5',
+      'themify',
+      'line-awesome',
+      'bootstrap-icons'
     ],
 
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
@@ -96,13 +105,15 @@ module.exports = function (/* ctx */) {
 
       // Quasar plugins
       plugins: [
-        'Cookies'
+        'Cookies',
+        'Notify',
+        'Loading',
       ]
     },
 
     // animations: 'all', // --- includes all animations
     // https://v1.quasar.dev/options/animations
-    animations: [],
+    animations: 'all',
 
     // https://v1.quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {

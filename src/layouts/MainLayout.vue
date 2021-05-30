@@ -2,12 +2,12 @@
   <q-layout view = "hHh LpR fFr">
     <q-header elevated>
       <q-toolbar>
-        <q-btn flat @click = "toIndex">
+        <q-btn no-caps flat
+               @click = "toIndex">
           <q-icon name = "auto_stories" size = "md"/>
-
-          <q-toolbar-title>
+          <div class = "text-h6 q-pl-md">
             Next Page
-          </q-toolbar-title>
+          </div>
         </q-btn>
 
         <q-space/>
@@ -23,6 +23,7 @@
           </q-input>
           <q-btn dense flat
                  icon = "search"
+                 @click = "search"
                  class = "q-mx-sm"/>
         </div>
 
@@ -61,7 +62,7 @@
     <!--    </q-drawer>-->
 
     <q-page-container>
-      <router-view/>
+      <router-view :key = "$route.query.t"/>
     </q-page-container>
 
     <!--    <q-footer>-->
@@ -94,6 +95,14 @@ export default {
   methods: {
     toIndex() {
       this.$router.push({path: '/'})
+    },
+    search() {
+      this.$router.push({
+        path: '/search', query: {
+          keyword: this.searchText,
+          t: Date.now()
+        }
+      })
     }
   }
 }

@@ -5,9 +5,9 @@
     </div>
 
     <q-img
-      width="450px"
-      alt="cover-image"
-      src = "http://localhost:7734/test/get_uploaded_image?imagePath=jpg/%E7%89%A7%E5%9C%BA%E7%89%A9%E8%AF%AD.jpg"/>
+      width = "450px"
+      alt = "cover-image"
+      :src = "home_page_img"/>
 
     <q-ajax-bar position = "top"/>
   </q-page>
@@ -15,11 +15,14 @@
 
 <script>
 import RegisterBox from "components/RegisterBox";
+import {get_image_url} from "assets/js/api/api_internal";
 
 export default {
   name: 'PageIndex',
   data() {
-    return {}
+    return {
+      home_page_img: get_image_url("jpg/%E7%89%A7%E5%9C%BA%E7%89%A9%E8%AF%AD.jpg")
+    }
   },
   methods: {}
 }
