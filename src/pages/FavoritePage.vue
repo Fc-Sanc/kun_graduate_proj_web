@@ -8,6 +8,7 @@
 
       <q-card-section v-if = "books.length > 0">
         <div class = "text-h6">共<span class = "text-primary">{{ books.length }}</span>条结果</div>
+        <q-separator/>
       </q-card-section>
 
       <q-card-section v-if = "books.length > 0">

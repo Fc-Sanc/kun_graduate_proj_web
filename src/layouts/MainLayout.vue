@@ -6,7 +6,7 @@
                @click = "toIndex">
           <q-icon name = "auto_stories" size = "md"/>
           <div class = "text-h6 q-pl-md">
-            Next Page
+            开卷
           </div>
         </q-btn>
 
@@ -38,6 +38,7 @@
       v-model = "leftDrawerOpen"
       show-if-above
       bordered
+      elevated
       :mini = "miniState"
       @mouseover = "miniState = false"
       @mouseout = "miniState = true"
@@ -77,7 +78,7 @@
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
 import UserInfoBar from "components/UserInfoBar";
-import {user_left_link_data} from "assets/js/link/user_left_link";
+import {user_left_link_data_top} from "assets/js/link/user_left_link";
 
 
 export default {
@@ -88,7 +89,7 @@ export default {
       miniState: true,
       leftDrawerOpen: false,
       rightDrawerOpen: false,
-      essentialLinks: user_left_link_data,
+      essentialLinks: user_left_link_data_top,
       searchText: '',
     }
   },

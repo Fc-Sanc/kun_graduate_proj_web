@@ -13,10 +13,16 @@
       <q-menu fit>
         <div class = "row no-wrap q-pa-md">
           <div class = "column">
-            <div class = "text-h6 q-mb-md">Info</div>
-            <div class = "text-body1">余额: {{ model.balance }}</div>
+            <div class = "text-h6 q-mb-md">基本信息</div>
+            <div class = "text-body2">余额: {{ model.balance }}</div>
+            <q-btn dense push
+                   color = "primary" label = "账户管理"
+                   @click = "toAccountManagement"
+                   class = "q-px-sm q-my-sm"/>
+
             <q-separator class = "q-my-sm"/>
-            <div class = "text-h6 q-mb-md">Settings</div>
+
+            <div class = "text-h6 q-mb-md">系统设置</div>
             <q-toggle v-model = "darkMode" label = "dark mode" @input = "toggleDarkMode"/>
           </div>
 
@@ -124,8 +130,11 @@ export default {
       fetch_s(api.url, {
         method: api.method
       }).then(result => {
-        this.balance = result.data.balance
+        this.model.balance = result.data.balance
       })
+    },
+    toAccountManagement() {
+      this.$router.push({path: '/account'})
     }
   },
   mounted() {

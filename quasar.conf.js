@@ -108,6 +108,8 @@ module.exports = function (/* ctx */) {
         'Cookies',
         'Notify',
         'Loading',
+        'LocalStorage',
+        'Dialog',
       ]
     },
 

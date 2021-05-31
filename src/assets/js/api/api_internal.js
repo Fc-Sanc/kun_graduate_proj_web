@@ -80,6 +80,101 @@ export const api = {
       }
     }
   },
+  order: {
+    get_by_user_id(userId) {
+      return {
+        url: `${base_url}/order/userId/${userId}`,
+        method: 'GET',
+      }
+    },
+    shopping_cart: {
+      url: `${base_url}/order/shopping_cart`,
+      method: 'GET',
+    },
+    orders: {
+      url: `${base_url}/order/orders`,
+      method: 'GET',
+    },
+    add: {
+      url: `${base_url}/order/add`,
+      method: 'POST',
+      body: {
+        bookId: '',
+        userAddressId: '',
+        quantity: 0,
+        totalPrice: 0,
+        status: ''
+      }
+    }
+  },
+  address: {
+    get_by_user_id(userId) {
+      return {
+        url: `${base_url}/address/userId/${userId}`,
+        method: 'GET',
+      }
+    },
+    add: {
+      url: `${base_url}/address`,
+      method: 'POST',
+      body: {
+        userId: '',
+        address: '',
+        phoneNumber: '',
+        receiver: '',
+        postcode: ''
+      }
+    },
+    update: {
+      url: `${base_url}/address`,
+      method: 'PUT',
+      body: {
+        userId: '',
+        address: '',
+        phoneNumber: '',
+        receiver: '',
+        postcode: ''
+      }
+    },
+    delete: {
+      url: `${base_url}/address`,
+      method: 'DELETE',
+      body: {
+        id: ''
+      }
+    },
+    set_default: {
+      url: `${base_url}/address/setDefault`,
+      method: 'POST',
+      body: {
+        id: '',
+        userId: ''
+      }
+    }
+  },
+  user: {
+    recharge: {
+      url: `${base_url}/user/balanceRecharge`,
+      method: 'POST',
+      body: {
+        value: 0
+      }
+    },
+    change_avatar: {
+      url: `${base_url}/user/avatarChanging`,
+      method: 'POST',
+      body: {
+        value: ''
+      }
+    },
+    change_password: {
+      url: `${base_url}/user/passwordChanging`,
+      method: 'POST',
+      body: {
+        value: ''
+      }
+    },
+  },
   user_detail(id) {
     return {
       url: `${base_url}/user/detail/${id}`,

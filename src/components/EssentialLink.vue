@@ -1,17 +1,17 @@
 <template>
-  <div v-if = "split">
+  <div v-if = "split"
+       class = "q-px-md">
     <q-separator v-if = "split"/>
-
   </div>
   <q-item v-else clickable
           tag = "a" target = "_self" :href = "link">
     <q-item-section v-if = "icon" avatar>
-      <q-icon :name = "icon"/>
+      <q-icon :name = "icon" color = "secondary"/>
     </q-item-section>
 
     <q-item-section>
-      <q-item-label>{{ title }}</q-item-label>
-      <q-item-label caption>{{ caption }}</q-item-label>
+      <q-item-label class = "text-grey-14">{{ title }}</q-item-label>
+<!--      <q-item-label caption>{{ caption }}</q-item-label>-->
     </q-item-section>
   </q-item>
 </template>
