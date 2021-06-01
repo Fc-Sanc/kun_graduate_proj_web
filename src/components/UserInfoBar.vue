@@ -2,9 +2,9 @@
   <div>
     <q-btn flat no-caps v-if = "hasSignedIn" @click = "getBalance">
       <q-item>
-        <q-chip color = "secondary">
-          <q-avatar size = "25px">
-            <q-img :src = "model.portraitUrl"/>
+        <q-chip square color = "secondary">
+          <q-avatar square size = "25px">
+            <q-img :src = "model.portraitUrl" ratio="1"/>
           </q-avatar>
           {{ model.username }}
         </q-chip>
@@ -107,8 +107,10 @@ export default {
       this.$q.cookies.remove('user_id')
       this.$q.cookies.remove('username')
       this.$q.cookies.remove('portrait_url')
-      this.$router.push('/')
-      this.$router.go(0)
+      this.$router.push({path: '/'})
+      setTimeout(() => {
+        this.$router.go(0)
+      }, 500)
     },
     toggleDarkMode(isOpen) {
       this.$q.cookies.set('dark_mode', isOpen)

@@ -35,9 +35,10 @@
 
 <script>
 import {apiInternal} from "src/router";
-import {fetch_s} from "assets/js/utils/fetch_extension";
+import {checkLogin, fetch_s} from "assets/js/utils/fetch_extension";
 import {bookModel} from "assets/js/model/book_convertor";
 import Book from "components/Book";
+import {Cookies} from "quasar";
 
 export default {
   name: "FavoritePage",
@@ -49,30 +50,26 @@ export default {
   },
   methods: {
     init() {
-      let userId = this.$q.cookies.get('user_id')
-      if (!userId) {
-        this.$q.notify("请登录后再进行操作")
+      checkLogin(() => {
         this.$router.push({path: '/login'})
-      } else {
-        let api = apiInternal.api.fav.get_by_user_id(userId)
-        fetch_s(api.url, {
-          method: api.method,
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
+      })
+      let api = apiInternal.api.fav.get_by_user_id(Cookies.get('user_id'))
+      fetch_s(api.url, {
+        method: api.method,
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        }
+      }).then(result => {
+        let favorites = result.data
+        this.books = []
+        for (let index in favorites) {
+          if (favorites.hasOwnProperty(index)) {
+            console.log(favorites[index])
+            this.books.push(bookModel(favorites[index].book))
           }
-        }).then(result => {
-          let favorites = result.data
-          this.books = []
-          for (let index in favorites) {
-            if (favorites.hasOwnProperty(index)) {
-              console.log(favorites[index])
-              this.books.push(bookModel(favorites[index].book))
-            }
-          }
-          console.log(this.books)
-        })
-      }
-
+        }
+        console.log(this.books)
+      })
     }
   },
   mounted() {

@@ -76,10 +76,12 @@
             <q-card-actions class = "row justify-end">
               <q-btn push no-caps
                      icon = "add_shopping_cart" color = "info" label = "加入购物车"
+                     :disable = "disableFavorite"
                      @click = "showOrderDialog(false)"
                      class = "q-ma-sm btn"/>
               <q-btn push no-caps
                      color = "positive" icon = "payments" label = "立即购买"
+                     :disable = "disableFavorite"
                      @click = "showOrderDialog(true)"
                      class = "q-ma-sm btn"/>
               <q-btn push no-caps
@@ -130,10 +132,6 @@
               <q-icon name = "o_local_shipping" color = "primary"/>
             </template>
 
-            <template v-slot:after>
-              <q-btn round dense flat icon = "add"/>
-            </template>
-
             <template v-slot:option = "scope"
             >
               <q-item
@@ -168,7 +166,7 @@
 
 <script>
 import {get_image_url} from "assets/js/api/api_internal";
-import {fetch_s} from "assets/js/utils/fetch_extension";
+import {checkLogin, fetch_s} from "assets/js/utils/fetch_extension";
 import {apiInternal} from "src/router";
 import {addressModel} from "assets/js/model/address_convertor";
 import {Cookies} from "quasar";
@@ -252,15 +250,10 @@ export default {
         this.count = 1
       }
     },
-    checkLogin() {
-      let userId = this.$q.cookies.get('user_id')
-      if (!userId) {
-        this.$q.notify("请登录后再进行操作")
-        this.$router.push({path: '/login'})
-      }
-    },
     showOrderDialog(buy) {
-      this.checkLogin()
+      checkLogin(() => {
+        this.$router.push({path: '/login'})
+      })
       this.buy = buy
       let api = apiInternal.api.address.get_by_user_id(Cookies.get('user_id'))
       fetch_s(api.url, {method: api.method}).then(result => {
@@ -300,8 +293,7 @@ export default {
           this.doBuy(api)
         }
       }
-    }
-    ,
+    },
     doBuy(api) {
       fetch_s(api.url, {
         method: api.method,

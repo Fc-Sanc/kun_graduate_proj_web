@@ -52,25 +52,9 @@
       </q-list>
     </q-drawer>
 
-    <!--    <q-drawer side = "right" bordered elevated v-model = "rightDrawerOpen">-->
-    <!--      <q-list>-->
-    <!--        <EssentialLink-->
-    <!--          v-for = "link in essentialLinks"-->
-    <!--          :key = "link.title"-->
-    <!--          v-bind = "link"-->
-    <!--        />-->
-    <!--      </q-list>-->
-    <!--    </q-drawer>-->
-
     <q-page-container>
       <router-view :key = "$route.query.t"/>
     </q-page-container>
-
-    <!--    <q-footer>-->
-    <!--      <q-toolbar>-->
-    <!--        <div>Quasar v{{ $q.version }}</div>-->
-    <!--      </q-toolbar>-->
-    <!--    </q-footer>-->
 
   </q-layout>
 </template>
@@ -104,7 +88,13 @@ export default {
           t: Date.now()
         }
       })
+    },
+    init() {
+
     }
+  },
+  mounted() {
+    this.init()
   }
 }
 </script>

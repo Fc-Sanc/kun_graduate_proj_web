@@ -13,13 +13,15 @@
 
       <q-tab-panel name = "goodSales" class = "column justify-center items-center">
         <div class = "text-h5 q-pb-md">Top 16</div>
-        <div class = "row items-center justify-start">
+        <div style = "text-align: center"
+             class = "row items-center justify-start">
           <Book v-for = "book in books_in_best_sales" :key = "book.id" :book = "book"/>
         </div>
       </q-tab-panel>
 
       <q-tab-panel name = "explore" class = "column justify-center items-center">
-        <div class = "row items-center justify-left">
+        <div style = "text-align: center"
+             class = "row items-center justify-start">
           <div v-for = "book in books_in_explore.content" :key = "book.id">
             <Book :book = "book"/>
           </div>
@@ -61,8 +63,10 @@
 
             </q-list>
           </div>
-          <div class = "column items-center justify-center col-9">
-            <div class = "row items-center justify-left">
+          <div
+            class = "column items-center justify-center col-9">
+            <div
+              class = "row items-center justify-start">
               <div v-for = "book in books_in_type.content" :key = "book.id">
                 <Book :book = "book"/>
               </div>

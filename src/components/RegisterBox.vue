@@ -94,8 +94,10 @@ export default {
               Cookies.set('username', result.data['username'])
               Cookies.set('portrait_url', result.data['portraitUrl'])
               this.$refs.ajax_bar.stop()
-              this.$router.push('/')
-              this.$router.go(0)
+              this.$router.push({path:'/'})
+              setTimeout(() => {
+                this.$router.go(0)
+              }, 500)
             })
           }
         })

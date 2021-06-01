@@ -32,7 +32,7 @@
 <script>
 import {apiInternal} from "src/router";
 import {Cookies} from "quasar";
-import {fetch_s} from "assets/js/utils/fetch_extension";
+import {checkLogin, fetch_s} from "assets/js/utils/fetch_extension";
 import OrderItem from "components/OrderItem";
 import {orderModel} from "assets/js/model/order_convertor";
 
@@ -49,20 +49,20 @@ export default {
   },
   methods: {
     init() {
-      let userId = Cookies.get('user_id')
-      if (userId != null) {
-        let api = apiInternal.api.order.shopping_cart
-        fetch_s(api.url, {method: api.method}).then(result => {
-          let shopping_cart = result.data
-          console.log(result.data)
-          this.shopping_cart.count = result.data.length
-          for (let index in shopping_cart) {
-            if (shopping_cart.hasOwnProperty(index)) {
-              this.shopping_cart.models.push(orderModel(shopping_cart[index]))
-            }
+      checkLogin(() => {
+        this.$router.push({path: '/login'})
+      })
+      let api = apiInternal.api.order.shopping_cart
+      fetch_s(api.url, {method: api.method}).then(result => {
+        let shopping_cart = result.data
+        console.log(result.data)
+        this.shopping_cart.count = result.data.length
+        for (let index in shopping_cart) {
+          if (shopping_cart.hasOwnProperty(index)) {
+            this.shopping_cart.models.push(orderModel(shopping_cart[index]))
           }
-        })
-      }
+        }
+      })
     }
   },
   mounted() {

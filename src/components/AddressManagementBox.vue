@@ -142,21 +142,16 @@ export default {
   methods: {
     init() {
       let userId = Cookies.get('user_id')
-      if (!userId) {
-        this.$q.notify("请登录后再进行操作")
-        this.$router.push({path: '/login'})
-      } else {
-        let api = apiInternal.api.address.get_by_user_id(userId)
-        fetch_s(api.url, {method: api.method}).then(result => {
-          let addressList = result.data
-          this.addresses = []
-          for (let index in addressList) {
-            if (addressList.hasOwnProperty(index)) {
-              this.addresses.push(addressModel(addressList[index]))
-            }
+      let api = apiInternal.api.address.get_by_user_id(userId)
+      fetch_s(api.url, {method: api.method}).then(result => {
+        let addressList = result.data
+        this.addresses = []
+        for (let index in addressList) {
+          if (addressList.hasOwnProperty(index)) {
+            this.addresses.push(addressModel(addressList[index]))
           }
-        })
-      }
+        }
+      })
     },
     onSubmit() {
       this.$refs.address_form.validate().then(success => {

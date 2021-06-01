@@ -174,6 +174,10 @@ export const api = {
         value: ''
       }
     },
+    check_login: {
+      url: `${base_url}/user/checkLogin`,
+      method: 'GET',
+    }
   },
   user_detail(id) {
     return {

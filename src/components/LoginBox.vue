@@ -62,8 +62,10 @@ export default {
             Cookies.set('user_id', result.data['id'])
             Cookies.set('username', result.data['username'])
             Cookies.set('portrait_url', result.data['portraitUrl'])
-            this.$router.push('/')
-            this.$router.go(0)
+            this.$router.push({path: '/'})
+            setTimeout(() => {
+              this.$router.go(0)
+            }, 500)
           })
         }
       })
